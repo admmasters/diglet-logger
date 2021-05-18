@@ -1,6 +1,7 @@
 {
   "name": "diglet-logger",
   "version": "1.0.0",
+  "types": "dist/index.esm.d.ts",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.umd.js",
@@ -46,6 +47,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "@wessberg/rollup-plugin-ts": "^1.3.14",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {
