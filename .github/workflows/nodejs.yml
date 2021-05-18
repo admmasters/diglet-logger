@@ -28,6 +28,14 @@ jobs:
       - name: install dependencies
         # Issues with frozen lockfile in ci
         run: pnpm install --frozen-lockfile=false
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            email=mattrevell82@me.com
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: build
         run: pnpm build
       - name: Create Release Pull Request or Publish to npm
