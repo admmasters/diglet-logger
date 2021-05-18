@@ -28,6 +28,8 @@ jobs:
       - name: install dependencies
         # Issues with frozen lockfile in ci
         run: pnpm install --frozen-lockfile=false
+      - name: build
+        run: pnpm build
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@master
