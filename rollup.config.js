@@ -1,7 +1,7 @@
-import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import ts from "@wessberg/rollup-plugin-ts";
 import pkg from './package.json';
 
 export default {
@@ -17,5 +17,5 @@ export default {
     },
   ],
   external: ['react', 'react-dom'],
-  plugins: [nodeResolve(), typescript(), commonjs(), json()],
+  plugins: [nodeResolve(), ts(), commonjs(), json()],
 };
