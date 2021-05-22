@@ -1,5 +1,2 @@
-// React hooks
 export { useLogger, LoggerProvider } from './common/logger-context';
-
-// Transformers
-export { makeSplunkFormatter, SplunkMessageV1 } from './splunk';
+export { makeSplunkFormatter, SplunkMessageV1, SplunkLogger } from './splunk';
