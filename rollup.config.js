@@ -1,7 +1,6 @@
-import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
+import typescript from '@wessberg/rollup-plugin-ts';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import ts from "@wessberg/rollup-plugin-ts";
+
 import pkg from './package.json';
 
 export default {
@@ -10,12 +9,14 @@ export default {
     {
       file: pkg.main,
       format: 'cjs',
+      // exports: 'named',
     },
     {
       file: pkg.module,
       format: 'es',
+      // exports: 'named',
     },
   ],
-  external: ['react', 'react-dom'],
-  plugins: [nodeResolve(), ts(), commonjs(), json()],
+  external: ['react', 'react/jsx-runtime', 'react-dom'],
+  plugins: [typescript(), nodeResolve({ browser: true })],
 };

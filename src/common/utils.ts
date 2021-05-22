@@ -1,4 +1,4 @@
-import isObject from 'lodash/isObject';
+import isObject from 'isobject';
 
 const isPlainObject = (obj: unknown): obj is Record<string, string> => {
   return isObject(obj);

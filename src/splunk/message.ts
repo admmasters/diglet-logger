@@ -1,7 +1,10 @@
-import { isPlainObject } from '../utils';
-import { LogMessage } from '../types';
+import { isPlainObject } from '../common/utils';
+import { AcceptedMessageTypes } from '../common/types';
 
-const getMessage = (logMessage: LogMessage, ...args: string[]): string => {
+const getMessage = (
+  logMessage: AcceptedMessageTypes,
+  ...args: string[]
+): string => {
   if (typeof logMessage === 'string' && args.length === 0) {
     return logMessage;
   }
@@ -12,6 +15,14 @@ const getMessage = (logMessage: LogMessage, ...args: string[]): string => {
 
   if (isPlainObject(logMessage) && logMessage['message']) {
     return logMessage['message'];
+  }
+
+  if (
+    isPlainObject(logMessage) &&
+    logMessage['error'] &&
+    isPlainObject(logMessage['error'])
+  ) {
+    return logMessage['error'].message;
   }
 
   console.debug(`TODO: handle ${typeof logMessage}`);

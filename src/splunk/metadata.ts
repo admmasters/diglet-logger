@@ -1,8 +1,8 @@
-import { isPlainObject } from '../utils';
-import { LogMessage } from '../types';
+import { isPlainObject } from '../common/utils';
+import { AcceptedMessageTypes } from '../common/types';
 
 const getMetadata = (
-  logMessage: LogMessage
+  logMessage: AcceptedMessageTypes
 ): Record<string, unknown> | undefined => {
   if (isPlainObject(logMessage) && isPlainObject(logMessage.metadata)) {
     return logMessage.metadata;
