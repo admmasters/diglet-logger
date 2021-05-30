@@ -14,7 +14,7 @@ interface SplunkLoggerConstructor {
 class SplunkFormatter implements LogTransformer {
   readonly coreFields: CoreFields;
   readonly onBeforeSend: (message: SplunkMessageV1) => void;
-  context: Context = {};
+  context: Context | undefined;
 
   constructor({
     application_name,
@@ -64,7 +64,18 @@ class SplunkFormatter implements LogTransformer {
       const payload = transformer(logMessage, ...args);
       const standardFields = coreTransformer(level);
       const dynamicFields = { ...payload, ...this.coreFields, ...standardFields };
-      this.onBeforeSend({ ...dynamicFields, metadata: { ...dynamicFields.metadata, ...this.context } });
+
+      let metadata: undefined | {};
+
+      if (dynamicFields.metadata) {
+        metadata = { ...dynamicFields.metadata };
+      }
+
+      if (this.context) {
+        metadata = { ...this.context };
+      }
+
+      this.onBeforeSend({ ...dynamicFields, metadata });
     };
 }
 

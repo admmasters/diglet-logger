@@ -128,7 +128,7 @@ describe('splunk-formatter', () => {
       logger[level](messageObject);
 
       const [transformed] = transformedCallback.mock.calls[0];
-      expect(transformed.metadata).toBe(messageObject.metadata);
+      expect(transformed.metadata).toEqual(messageObject.metadata);
     }
   );
 
