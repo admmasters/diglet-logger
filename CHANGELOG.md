@@ -1,5 +1,11 @@
 # diglet-logger
 
+## 1.1.2
+
+### Patch Changes
+
+- f2793f9: Add context functionality
+
 ## 1.1.1
 
 ### Patch Changes
