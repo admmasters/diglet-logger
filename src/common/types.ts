@@ -16,9 +16,16 @@ export interface CoreFields {
   logger: string;
 }
 
-export type LogTransformer = {
+export type Context = Record<string, any>;
+
+type _LogTransformer = {
   [key in AppLogLevel]: (
     message: AcceptedMessageTypes,
     ...args: string[]
   ) => void;
 };
+
+export interface LogTransformer extends _LogTransformer {
+  setContext: (context: Context) => void;
+  clearContext: () => void;
+}
