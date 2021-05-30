@@ -199,4 +199,33 @@ describe('splunk-formatter', () => {
     expect(transformed.stack.length).toBeGreaterThan(0);
     expect(transformed.metadata).toBeUndefined();
   });
+
+  it('Should be able to set context', () => {
+    const logger = makeSplunkFormatter({
+      application_name: 'SuperApplication',
+      loggerName: 'SuperLogger',
+      application_version: '1.0',
+      onBeforeSend: transformedCallback,
+    });
+
+    logger.setContext({ 'applicationId': '123456789'});
+
+    logger.log('Hello!');
+
+    let [transformed] = transformedCallback.mock.calls[0];
+    expect(transformed.metadata).toEqual({ 'applicationId': '123456789' });
+    expect(transformed.message).toEqual("Hello!");
+
+
+    logger.clearContext();
+
+    logger.log('Hello!');
+
+    [transformed] = transformedCallback.mock.calls[1];
+
+    expect(transformed.metadata).toEqual({});
+    expect(transformed.message).toEqual("Hello!");
+
+
+  });
 });

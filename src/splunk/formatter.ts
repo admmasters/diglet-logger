@@ -1,7 +1,7 @@
 import { AcceptedMessageTypes, CoreFields } from '../common/types';
 import { coreTransformer, transformer } from './transformer';
 import { SplunkLogLevel, SplunkMessageV1 } from './types';
-import { LogTransformer } from '../common/types';
+import { LogTransformer, Context } from '../common/types';
 
 interface SplunkLoggerConstructor {
   application_name: string;
@@ -10,9 +10,11 @@ interface SplunkLoggerConstructor {
   onBeforeSend: (message: SplunkMessageV1) => void;
 }
 
+
 class SplunkFormatter implements LogTransformer {
   readonly coreFields: CoreFields;
   readonly onBeforeSend: (message: SplunkMessageV1) => void;
+  context: Context = {};
 
   constructor({
     application_name,
@@ -26,6 +28,14 @@ class SplunkFormatter implements LogTransformer {
       application_name,
     };
     this.onBeforeSend = onBeforeSend;
+  }
+
+  clearContext() {
+    this.context = {};
+  }
+
+  setContext(context: Context) {
+    this.context = context;
   }
 
   log(logMessage: AcceptedMessageTypes, ...args: string[]) {
@@ -53,7 +63,8 @@ class SplunkFormatter implements LogTransformer {
     (logMessage: AcceptedMessageTypes, ...args: string[]) => {
       const payload = transformer(logMessage, ...args);
       const standardFields = coreTransformer(level);
-      this.onBeforeSend({ ...payload, ...this.coreFields, ...standardFields });
+      const dynamicFields = { ...payload, ...this.coreFields, ...standardFields };
+      this.onBeforeSend({ ...dynamicFields, metadata: { ...dynamicFields.metadata, ...this.context } });
     };
 }
 
